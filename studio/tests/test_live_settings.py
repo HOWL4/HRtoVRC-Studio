@@ -17,6 +17,13 @@ sys.path.insert(0, STUDIO)
 
 import HRtoVRC_Studio as S  # noqa: E402
 
+# GitHub runners give us a cp1252 stdout; the Russian strings in this output
+# must not be what makes a test run fail.
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
+
 FAILURES = []
 CHECKS = []
 
