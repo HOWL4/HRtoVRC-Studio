@@ -48,7 +48,7 @@ cd studio
 ## Автообновление
 
 При запуске программа обращается к
-`https://api.github.com/repos/<OWNER>/<REPO>/releases/latest`, сравнивает
+`https://api.github.com/repos/HOWL4/HRtoVRC-Studio/releases/latest`, сравнивает
 `tag_name` с `APP_VERSION` и, если версия новее, предлагает обновиться:
 скачивает `.exe` из релиза, подменяет текущий файл и перезапускается.
 Проверку можно выключить галочкой «Проверять обновления при запуске»

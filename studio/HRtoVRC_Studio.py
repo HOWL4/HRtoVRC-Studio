@@ -105,7 +105,7 @@ import hr_updater  # noqa: E402
 APP_VERSION = "1.10.2"
 # Where auto-update looks for releases. Set this to your own "owner/name" once
 # the repository exists; while it is the placeholder, update checks are skipped.
-GITHUB_REPO = "OWNER/REPO"
+GITHUB_REPO = "HOWL4/HRtoVRC-Studio"
 APP_AUTHOR = "_howl"
 APP_DISCORD = "howl64"
 ICON_FILE = "HRtoVRC.ico"
