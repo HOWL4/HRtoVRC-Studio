@@ -1,0 +1,29 @@
+# Only the Studio app and the shared backend belong in this repository.
+# Everything else in this working folder — old builds, virtualenvs, packaged
+# archives and personal data — stays local.
+
+/*
+!/.gitignore
+!/.gitattributes
+!/.github/
+!/README.md
+!/requirements.txt
+!/HRGUI10.py
+!/HRtoVRC.ico
+!/studio/
+
+# Inside studio/: the app, its updater, one build spec, the tests and the docs.
+studio/build/
+studio/dist/
+studio/__pycache__/
+studio/tests/__pycache__/
+studio/*.bak-*
+studio/HRtoVRC_Studio_v*.spec
+studio/HRtoVRC_Studio_DesignFix.spec
+
+# Local state and personal data — never commit these.
+studio/settings.json
+studio/last_device.txt
+studio/history.sqlite3
+studio/history.sqlite3-shm
+studio/history.sqlite3-wal

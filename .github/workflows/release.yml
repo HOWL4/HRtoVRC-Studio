@@ -1,0 +1,65 @@
+name: release
+
+# Tag a commit with the version you just put in APP_VERSION and push the tag:
+#   git tag v1.10.3 && git push origin main --tags
+# This builds the portable .exe and attaches it to the GitHub release, which is
+# exactly where the in-app updater looks for it.
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pyinstaller==6.20.0
+
+      - name: Check the tag matches APP_VERSION
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: pwsh
+        run: |
+          $src = Get-Content studio/HRtoVRC_Studio.py -Raw
+          if ($src -notmatch 'APP_VERSION\s*=\s*"([^"]+)"') {
+            throw "APP_VERSION not found in studio/HRtoVRC_Studio.py"
+          }
+          $appVersion = $Matches[1]
+          $tag = "${{ github.ref_name }}" -replace '^v', ''
+          Write-Host "APP_VERSION=$appVersion  tag=$tag"
+          if ($appVersion -ne $tag) {
+            throw "Tag $tag does not match APP_VERSION $appVersion - the updater would offer a version that does not exist."
+          }
+
+      - name: Run tests
+        run: |
+          python studio/tests/test_updater.py
+          python studio/tests/test_live_settings.py
+
+      - name: Build the portable .exe
+        working-directory: studio
+        run: pyinstaller --noconfirm --clean HRtoVRC_Studio.spec
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HRtoVRC_Studio
+          path: studio/dist/HRtoVRC_Studio.exe
+
+      - name: Publish the release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: studio/dist/HRtoVRC_Studio.exe
+          generate_release_notes: true

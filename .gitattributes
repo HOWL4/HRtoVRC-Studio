@@ -1,0 +1,10 @@
+# Store text as LF in the repository, check out with the platform's native endings.
+* text=auto
+
+*.py   text diff=python
+*.md   text
+*.yml  text
+*.spec text
+
+*.ico binary
+*.exe binary
