@@ -12,7 +12,7 @@ import time
 
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 
-STUDIO = r"C:\HR\HRCodexEdit\studio"
+STUDIO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, STUDIO)
 
 import HRtoVRC_Studio as S  # noqa: E402
